@@ -1,4 +1,5 @@
 """Utilities for sparse masking strategies compatible with latent attention."""
+
 from __future__ import annotations
 
 from typing import Dict, Optional

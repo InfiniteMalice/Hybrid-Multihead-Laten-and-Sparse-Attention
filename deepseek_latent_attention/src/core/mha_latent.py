@@ -1,4 +1,5 @@
 """Multi-head latent attention primitives inspired by DeepSeek-V3 MLA."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -58,7 +59,7 @@ class LatentAttention(nn.Module):
         self.num_heads = num_heads
         self.head_dim = embed_dim // num_heads
         self.latent_dim = max(1, int(self.head_dim * latent_dim_ratio))
-        self.scale = self.latent_dim ** -0.5
+        self.scale = self.latent_dim**-0.5
         self.dropout = dropout
         self.track_stats = track_stats
 

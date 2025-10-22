@@ -1,4 +1,5 @@
 """Fusion layers combining latent and sparse attention pathways."""
+
 from __future__ import annotations
 
 from typing import Dict, Optional, Tuple
@@ -57,7 +58,9 @@ class LatentSparseFusion(nn.Module):
             weights = None
         fused_stats = AttentionStats()
         if dense_stats.head_entropy is not None and sparse_stats.head_entropy is not None:
-            fused_stats.head_entropy = gate * dense_stats.head_entropy + (1 - gate) * sparse_stats.head_entropy
+            fused_stats.head_entropy = (
+                gate * dense_stats.head_entropy + (1 - gate) * sparse_stats.head_entropy
+            )
         if dense_stats.sparsity is not None and sparse_stats.sparsity is not None:
             fused_stats.sparsity = gate * dense_stats.sparsity + (1 - gate) * sparse_stats.sparsity
         return output, weights, fused_stats
