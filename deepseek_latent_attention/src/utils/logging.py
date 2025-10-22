@@ -1,4 +1,5 @@
 """Lightweight logging wrappers for latent attention experiments."""
+
 from __future__ import annotations
 
 import logging

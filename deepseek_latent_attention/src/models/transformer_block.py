@@ -1,4 +1,5 @@
 """Transformer block using latent attention modules."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -73,7 +74,9 @@ class LatentTransformerBlock(nn.Module):
         mlp_out = self.mlp_drop(self.mlp(x))
         x = self.norm2(x + mlp_out)
         stat_dict = {
-            "entropy": stats.head_entropy.detach().cpu() if stats.head_entropy is not None else None,
+            "entropy": (
+                stats.head_entropy.detach().cpu() if stats.head_entropy is not None else None
+            ),
             "sparsity": stats.sparsity.detach().cpu() if stats.sparsity is not None else None,
         }
         return BlockOutputs(hidden_states=x, attn_weights=attn_weights, attn_stats=stat_dict)

@@ -1,4 +1,5 @@
 """Dataset loading utilities with synthetic MLA benchmarks."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -41,7 +42,12 @@ class LoaderConfig:
 def create_dataloader(dataset: Dataset, config: LoaderConfig) -> DataLoader:
     """Instantiate a dataloader for the given dataset."""
 
-    return DataLoader(dataset, batch_size=config.batch_size, shuffle=config.shuffle, num_workers=config.num_workers)
+    return DataLoader(
+        dataset,
+        batch_size=config.batch_size,
+        shuffle=config.shuffle,
+        num_workers=config.num_workers,
+    )
 
 
 __all__ = ["SineWaveDataset", "LoaderConfig", "create_dataloader"]
