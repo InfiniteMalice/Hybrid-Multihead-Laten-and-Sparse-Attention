@@ -1,4 +1,5 @@
 """Unit tests for LatentAttention modules."""
+
 from __future__ import annotations
 
 import pytest
@@ -17,8 +18,12 @@ def test_latent_equals_dense_when_ratio_one() -> None:
     num_heads = 2
     seq_len = 4
     batch = 2
-    latent = LatentAttention(embed_dim, num_heads, latent_dim_ratio=1.0, dropout=0.0, use_bias=False)
-    mha = torch.nn.MultiheadAttention(embed_dim, num_heads, dropout=0.0, bias=False, batch_first=True)
+    latent = LatentAttention(
+        embed_dim, num_heads, latent_dim_ratio=1.0, dropout=0.0, use_bias=False
+    )
+    mha = torch.nn.MultiheadAttention(
+        embed_dim, num_heads, dropout=0.0, bias=False, batch_first=True
+    )
 
     eye = torch.eye(embed_dim)
     latent.q_proj.weight.data.copy_(eye)
@@ -64,6 +69,7 @@ def test_sparse_mask_matches_dense_when_full() -> None:
     batch = 2
     dense = LatentAttention(embed_dim, num_heads)
     sparse = LatentSparseAttention(embed_dim, num_heads)
+    sparse.load_state_dict(dense.state_dict())
     full_mask = torch.ones(seq_len, seq_len, dtype=torch.bool)
     sparse_cfg = {"binary_mask": full_mask}
 

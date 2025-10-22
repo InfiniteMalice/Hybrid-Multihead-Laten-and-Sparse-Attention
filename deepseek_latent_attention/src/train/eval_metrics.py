@@ -1,4 +1,5 @@
 """Evaluation metrics for latent attention experiments."""
+
 from __future__ import annotations
 
 from typing import Dict

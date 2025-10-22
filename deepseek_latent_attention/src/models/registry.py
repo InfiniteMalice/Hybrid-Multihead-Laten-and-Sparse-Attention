@@ -1,4 +1,5 @@
 """Simple module registry for experiment orchestration."""
+
 from __future__ import annotations
 
 from typing import Callable, Dict, Type

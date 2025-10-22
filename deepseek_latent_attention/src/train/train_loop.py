@@ -1,4 +1,5 @@
 """Minimal training loop scaffolding for latent attention models."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -55,7 +56,9 @@ def train(
     return metrics
 
 
-def benchmark_against_torch_mha(latent_model: nn.Module, torch_mha: nn.Module, inputs: torch.Tensor) -> Dict[str, float]:
+def benchmark_against_torch_mha(
+    latent_model: nn.Module, torch_mha: nn.Module, inputs: torch.Tensor
+) -> Dict[str, float]:
     """Compare FLOPs and runtime with PyTorch's native attention."""
 
     with torch.autograd.profiler.profile(use_cuda=inputs.is_cuda) as prof_latent:
