@@ -29,3 +29,10 @@ mamba_anchor:
 runtime:
   seq_len: 32
   return_stats: false
+  model_name_or_path: gpt2
+  tokenizer_name_or_path: null
+  dtype: bfloat16
+  device: cuda
+  batch_size: 1
+  max_length: 4096
+  model_tag: null
