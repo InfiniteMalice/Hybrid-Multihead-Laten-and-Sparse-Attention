@@ -1,0 +1,7 @@
+extends:
+  - _base.yaml
+
+name: v4_mla_plus_mamba_sparse
+
+mamba:
+  mode: SPARSE

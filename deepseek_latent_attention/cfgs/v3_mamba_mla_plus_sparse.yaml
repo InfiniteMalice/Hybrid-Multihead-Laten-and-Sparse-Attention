@@ -1,0 +1,7 @@
+extends:
+  - _base.yaml
+
+name: v3_mamba_mla_plus_sparse
+
+mamba:
+  mode: MLA

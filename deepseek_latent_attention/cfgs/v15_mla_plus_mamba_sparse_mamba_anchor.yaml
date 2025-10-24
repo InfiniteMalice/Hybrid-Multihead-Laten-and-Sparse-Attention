@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v15_mla_plus_mamba_sparse_mamba_anchor
+
+mamba:
+  mode: SPARSE
+
+mamba_anchor:
+  enable: true

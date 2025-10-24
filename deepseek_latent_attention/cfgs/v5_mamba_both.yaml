@@ -1,0 +1,7 @@
+extends:
+  - _base.yaml
+
+name: v5_mamba_both
+
+mamba:
+  mode: BOTH

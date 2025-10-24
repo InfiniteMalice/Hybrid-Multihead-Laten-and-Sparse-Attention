@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v12_mamba_sparse_anchor_attn
+
+mamba:
+  mode: SPARSE
+
+self_anchor:
+  enable: true

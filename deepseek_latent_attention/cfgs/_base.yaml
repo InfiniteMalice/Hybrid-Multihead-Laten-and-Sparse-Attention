@@ -1,0 +1,31 @@
+# Base configuration shared across experiments
+
+model:
+  base: MLA_PLUS_SPARSE
+  d_model: 256
+  n_heads: 8
+  dropout: 0.0
+  attn_dropout: 0.0
+
+mamba:
+  mode: OFF
+  state_size: 64
+  dt_rank: 16
+  conv_kernel_size: 4
+  dropout: 0.0
+
+self_anchor:
+  enable: false
+  bias_scale: 1.5
+  strategy: cot_markers
+  window: 64
+
+mamba_anchor:
+  enable: false
+  alpha: 0.1
+  strategy: cot_markers
+  window: 64
+
+runtime:
+  seq_len: 32
+  return_stats: false

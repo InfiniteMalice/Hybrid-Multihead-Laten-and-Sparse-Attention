@@ -1,0 +1,7 @@
+extends:
+  - _base_anchor.yaml
+
+name: v7_mamba_sparse_anchor_attn
+
+mamba:
+  mode: SPARSE

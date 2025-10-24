@@ -1,0 +1,4 @@
+extends:
+  - _base.yaml
+
+name: v1_mla_sparse

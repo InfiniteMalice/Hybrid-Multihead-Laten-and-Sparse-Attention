@@ -1,0 +1,4 @@
+extends:
+  - _base_anchor.yaml
+
+name: v2_mla_sparse_anchor
