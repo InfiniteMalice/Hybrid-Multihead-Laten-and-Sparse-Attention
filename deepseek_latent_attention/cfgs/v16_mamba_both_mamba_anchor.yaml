@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v16_mamba_both_mamba_anchor
+
+mamba:
+  mode: BOTH
+
+mamba_anchor:
+  enable: true

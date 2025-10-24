@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v14_mamba_mla_plus_sparse_mamba_anchor
+
+mamba:
+  mode: MLA
+
+mamba_anchor:
+  enable: true

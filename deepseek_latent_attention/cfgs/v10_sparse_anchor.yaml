@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v10_sparse_anchor
+
+model:
+  base: SPARSE_ONLY
+
+self_anchor:
+  enable: true

@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v11_mamba_mla_anchor_attn
+
+mamba:
+  mode: MLA
+
+self_anchor:
+  enable: true

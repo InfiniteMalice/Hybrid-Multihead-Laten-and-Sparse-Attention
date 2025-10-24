@@ -1,0 +1,14 @@
+extends:
+  - _base.yaml
+
+self_anchor:
+  enable: true
+  bias_scale: 2.0
+  strategy: cot_markers
+  window: 64
+
+mamba_anchor:
+  enable: true
+  alpha: 0.2
+  strategy: cot_markers
+  window: 64

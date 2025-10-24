@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v9_mla_anchor
+
+model:
+  base: MLA_ONLY
+
+self_anchor:
+  enable: true

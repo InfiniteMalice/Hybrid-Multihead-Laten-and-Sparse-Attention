@@ -1,0 +1,7 @@
+extends:
+  - _base_anchor.yaml
+
+name: v8_mamba_both_anchor_attn
+
+mamba:
+  mode: BOTH

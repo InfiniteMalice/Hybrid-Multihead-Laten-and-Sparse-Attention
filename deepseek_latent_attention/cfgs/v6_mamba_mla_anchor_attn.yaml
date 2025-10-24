@@ -1,0 +1,7 @@
+extends:
+  - _base_anchor.yaml
+
+name: v6_mamba_mla_anchor_attn
+
+mamba:
+  mode: MLA

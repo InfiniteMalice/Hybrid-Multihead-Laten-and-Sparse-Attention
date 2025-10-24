@@ -1,0 +1,10 @@
+extends:
+  - _base.yaml
+
+name: v17_mla_mamba_anchor
+
+model:
+  base: MLA_ONLY
+
+mamba_anchor:
+  enable: true
