@@ -83,7 +83,7 @@ bd sync  # Force immediate export/commit/push
 
 ## Project Structure
 
-```
+```text
 beads/
 ├── cmd/bd/              # CLI commands (add new commands here)
 ├── internal/
