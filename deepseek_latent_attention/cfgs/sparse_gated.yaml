@@ -1,0 +1,13 @@
+extends:
+  - _base.yaml
+
+name: sparse_gated
+
+model:
+  base: SPARSE_ONLY
+  gating:
+    enabled: true
+    method: headwise
+    init_bias: 0.0
+    max_scale: 1.5
+    dropout: 0.0
