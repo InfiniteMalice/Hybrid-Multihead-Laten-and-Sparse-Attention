@@ -82,3 +82,5 @@ def test_gating_gradients_flow() -> None:
 
     assert module.token_weight.grad is not None
     assert module.token_bias.grad is not None
+    assert q.grad is not None
+    assert scores.grad is not None

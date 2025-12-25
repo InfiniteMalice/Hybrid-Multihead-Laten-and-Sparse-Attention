@@ -83,4 +83,4 @@ class GatingModule(nn.Module):
         return gate.clamp(min=0.0, max=self.cfg.max_scale)
 
 
-__all__ = ["GatingModule", "GatingConfigurationError", "GatingRuntimeError"]
+__all__ = ["GatingConfigurationError", "GatingModule", "GatingRuntimeError"]
