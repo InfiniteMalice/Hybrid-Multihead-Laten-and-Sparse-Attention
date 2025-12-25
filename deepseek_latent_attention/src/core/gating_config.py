@@ -19,7 +19,6 @@ class GatingConfig:
     """Configuration for optional attention score gating."""
 
     method: GatingMethod = GatingMethod.NONE
-    enabled: bool = False
     init_bias: float = 0.0
     max_scale: float = 1.5
     dropout: float = 0.0

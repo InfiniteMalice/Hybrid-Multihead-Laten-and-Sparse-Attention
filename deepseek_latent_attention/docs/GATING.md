@@ -24,7 +24,7 @@ attn = softmax(scores)
 - **TOKENWISE**: a per-head projection from query vectors to scalar gates for each query
   position (`[B, H, L_q, 1]`), enabling token-specific scaling.
 
-Both methods are no-ops when `enabled: false` or `method: none`.
+Both methods are no-ops when `method: none`.
 
 ## Configuration Example
 
@@ -32,7 +32,6 @@ Both methods are no-ops when `enabled: false` or `method: none`.
 model:
   base: MLA_ONLY
   gating:
-    enabled: true
     method: headwise
     init_bias: 0.0
     max_scale: 1.5

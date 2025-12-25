@@ -6,7 +6,6 @@ name: mla_gated
 model:
   base: MLA_ONLY
   gating:
-    enabled: true
     method: headwise
     init_bias: 0.0
     max_scale: 1.5

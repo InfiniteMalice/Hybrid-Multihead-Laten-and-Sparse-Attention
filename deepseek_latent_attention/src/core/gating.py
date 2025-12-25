@@ -49,7 +49,7 @@ class GatingModule(nn.Module):
     def forward(self, q: Tensor, _k: Tensor, scores: Tensor) -> Tensor:
         """Return gated scores with shape ``[B, H, L_q, L_k]``."""
 
-        if not self.cfg.enabled or self.cfg.method == GatingMethod.NONE:
+        if self.cfg.method == GatingMethod.NONE:
             return scores
 
         if self.cfg.method == GatingMethod.HEADWISE:
@@ -83,4 +83,4 @@ class GatingModule(nn.Module):
         return gate.clamp(min=0.0, max=self.cfg.max_scale)
 
 
-__all__ = ["GatingModule"]
+__all__ = ["GatingModule", "GatingConfigurationError", "GatingRuntimeError"]

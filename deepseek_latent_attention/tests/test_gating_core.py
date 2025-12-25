@@ -15,7 +15,7 @@ from deepseek_latent_attention.src.core.gating_config import GatingConfig, Gatin
 
 @pytest.mark.parametrize("method", [GatingMethod.HEADWISE, GatingMethod.TOKENWISE])
 def test_gating_preserves_shape(method: GatingMethod) -> None:
-    cfg = GatingConfig(method=method, enabled=True)
+    cfg = GatingConfig(method=method)
     module = GatingModule(num_heads=2, head_dim=4, cfg=cfg)
     q = torch.randn(1, 2, 3, 4)
     k = torch.randn(1, 2, 5, 4)
@@ -31,20 +31,15 @@ def test_gating_no_op_when_disabled() -> None:
     k = torch.randn(1, 2, 3, 4)
     scores = torch.randn(1, 2, 3, 3)
 
-    cfg_disabled = GatingConfig(method=GatingMethod.HEADWISE, enabled=False)
-    disabled_module = GatingModule(num_heads=2, head_dim=4, cfg=cfg_disabled)
-    out_disabled = disabled_module(q, k, scores)
-
-    cfg_none = GatingConfig(method=GatingMethod.NONE, enabled=True)
+    cfg_none = GatingConfig(method=GatingMethod.NONE)
     none_module = GatingModule(num_heads=2, head_dim=4, cfg=cfg_none)
     out_none = none_module(q, k, scores)
 
-    assert torch.allclose(out_disabled, scores)
     assert torch.allclose(out_none, scores)
 
 
 def test_headwise_gating_scales_each_head() -> None:
-    cfg = GatingConfig(method=GatingMethod.HEADWISE, enabled=True, max_scale=2.0)
+    cfg = GatingConfig(method=GatingMethod.HEADWISE, max_scale=2.0)
     module = GatingModule(num_heads=2, head_dim=4, cfg=cfg)
     target = torch.tensor([0.5, 0.8])
     module.head_gate.data.copy_(torch.logit(target))
@@ -59,7 +54,7 @@ def test_headwise_gating_scales_each_head() -> None:
 
 
 def test_tokenwise_gating_scales_query_positions() -> None:
-    cfg = GatingConfig(method=GatingMethod.TOKENWISE, enabled=True, max_scale=2.0)
+    cfg = GatingConfig(method=GatingMethod.TOKENWISE, max_scale=2.0)
     module = GatingModule(num_heads=1, head_dim=2, cfg=cfg)
     module.token_weight.data.copy_(torch.tensor([[1.0, 0.0]]))
     module.token_bias.data.zero_()
@@ -75,7 +70,7 @@ def test_tokenwise_gating_scales_query_positions() -> None:
 
 
 def test_gating_gradients_flow() -> None:
-    cfg = GatingConfig(method=GatingMethod.TOKENWISE, enabled=True)
+    cfg = GatingConfig(method=GatingMethod.TOKENWISE)
     module = GatingModule(num_heads=1, head_dim=3, cfg=cfg)
     q = torch.randn(2, 1, 4, 3, requires_grad=True)
     k = torch.randn(2, 1, 4, 3)

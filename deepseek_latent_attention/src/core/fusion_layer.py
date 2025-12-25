@@ -29,18 +29,10 @@ class LatentSparseFusion(nn.Module):
     ) -> None:
         super().__init__()
         self.latent = LatentAttention(
-            embed_dim,
-            num_heads,
-            latent_dim_ratio,
-            dropout,
-            gating_config=gating_config,
+            embed_dim, num_heads, latent_dim_ratio, dropout, gating_config=gating_config
         )
         self.sparse = LatentSparseAttention(
-            embed_dim,
-            num_heads,
-            latent_dim_ratio,
-            dropout,
-            gating_config=gating_config,
+            embed_dim, num_heads, latent_dim_ratio, dropout, gating_config=gating_config
         )
         self.gate = nn.Parameter(torch.tensor(0.5))
 
