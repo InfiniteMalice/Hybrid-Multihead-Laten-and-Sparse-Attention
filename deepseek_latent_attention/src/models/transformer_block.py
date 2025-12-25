@@ -8,6 +8,7 @@ from typing import Optional
 import torch
 from torch import nn
 
+from ..core.gating_config import GatingConfig
 from ..core.mha_latent import LatentAttention, LatentSparseAttention
 from ..core.normalization import RMSNorm
 
@@ -40,10 +41,18 @@ class LatentTransformerBlock(nn.Module):
         dropout: float = 0.0,
         activation: str = "gelu",
         use_sparse: bool = False,
+        gating_config: Optional[GatingConfig] = None,
     ) -> None:
         super().__init__()
         attn_cls = LatentSparseAttention if use_sparse else LatentAttention
-        self.attn = attn_cls(embed_dim, num_heads, latent_dim_ratio, dropout, track_stats=True)
+        self.attn = attn_cls(
+            embed_dim,
+            num_heads,
+            latent_dim_ratio,
+            dropout,
+            track_stats=True,
+            gating_config=gating_config,
+        )
         self.norm1 = RMSNorm(embed_dim)
         self.norm2 = RMSNorm(embed_dim)
         hidden_dim = int(embed_dim * mlp_ratio)

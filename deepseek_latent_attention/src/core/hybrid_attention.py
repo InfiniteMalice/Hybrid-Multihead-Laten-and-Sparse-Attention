@@ -33,6 +33,7 @@ except ModuleNotFoundError:  # pragma: no cover - fallback for environments with
 
 
 from .config import AttnConfig
+from .gating import GatingModule
 from .utils import create_mask
 
 
@@ -57,6 +58,7 @@ class MultiheadAttn(nn.Module):
         self.out = nn.Linear(config.d_model, config.d_model, bias=config.bias)
         self.out_dropout = nn.Dropout(config.dropout)
         self.attn_dropout = nn.Dropout(config.attn_dropout)
+        self.gating = GatingModule(self.n_heads, self.d_k, config.gating)
 
     def forward(
         self,
@@ -93,6 +95,8 @@ class MultiheadAttn(nn.Module):
 
         if key_padding_mask is not None:
             scores = self._apply_padding_mask(scores, key_padding_mask)
+
+        scores = self.gating(q, k, scores)
 
         probs = torch.softmax(scores, dim=-1)
         probs = self.attn_dropout(probs)

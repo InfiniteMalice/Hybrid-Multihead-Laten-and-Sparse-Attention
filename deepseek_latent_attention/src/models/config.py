@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+
+from ..core.gating_config import GatingConfig
 
 
 @dataclass
@@ -17,6 +19,7 @@ class LatentAttentionConfig:
     use_sparse: bool = False
     use_bias: bool = True
     latent_sparse_topk: int | None = None
+    gating: GatingConfig = field(default_factory=GatingConfig)
 
 
 __all__ = ["LatentAttentionConfig"]
