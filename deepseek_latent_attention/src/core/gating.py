@@ -10,6 +10,14 @@ from torch import Tensor, nn
 from .gating_config import GatingConfig, GatingMethod
 
 
+class GatingConfigurationError(ValueError):
+    """Raised when gating parameters are misconfigured."""
+
+
+class GatingRuntimeError(RuntimeError):
+    """Raised when gating parameters are missing during execution."""
+
+
 class GatingModule(nn.Module):
     """Compute gated attention scores.
 
@@ -36,7 +44,7 @@ class GatingModule(nn.Module):
             self.token_weight = nn.Parameter(torch.zeros(num_heads, head_dim))
             self.token_bias = nn.Parameter(torch.zeros(num_heads))
         elif cfg.method != GatingMethod.NONE:
-            raise ValueError(f"Unsupported gating method: {cfg.method}")
+            raise GatingConfigurationError(f"Unsupported gating method: {cfg.method}")
 
     def forward(self, q: Tensor, _k: Tensor, scores: Tensor) -> Tensor:
         """Return gated scores with shape ``[B, H, L_q, L_k]``."""
@@ -46,13 +54,13 @@ class GatingModule(nn.Module):
 
         if self.cfg.method == GatingMethod.HEADWISE:
             if self.head_gate is None:
-                raise RuntimeError("Headwise gating parameters are not initialized.")
+                raise GatingRuntimeError("Headwise gating parameters are not initialized.")
             gate = torch.sigmoid(self.head_gate + self.cfg.init_bias)
             gate = self._clamp_gate(gate)
             gate = gate.view(1, self.num_heads, 1, 1)
         elif self.cfg.method == GatingMethod.TOKENWISE:
             if self.token_weight is None or self.token_bias is None:
-                raise RuntimeError("Tokenwise gating parameters are not initialized.")
+                raise GatingRuntimeError("Tokenwise gating parameters are not initialized.")
             weight = self.token_weight.view(1, self.num_heads, 1, self.head_dim)
             bias = self.token_bias.view(1, self.num_heads, 1)
             logits = (q * weight).sum(dim=-1)
