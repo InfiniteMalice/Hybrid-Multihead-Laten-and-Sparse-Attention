@@ -10,7 +10,7 @@ before the softmax, allowing light fine-tuning without retraining the base model
 Gating is applied **after** attention scores are computed and masks are applied, but
 **before** the softmax:
 
-```
+```text
 scores = compute_scores(q, k)
 scores = apply_mask(scores)
 scores = gating(q, k, scores)  # optional

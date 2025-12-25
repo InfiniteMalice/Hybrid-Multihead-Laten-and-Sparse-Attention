@@ -38,7 +38,7 @@ class GatingModule(nn.Module):
         elif cfg.method != GatingMethod.NONE:
             raise ValueError(f"Unsupported gating method: {cfg.method}")
 
-    def forward(self, q: Tensor, k: Tensor, scores: Tensor) -> Tensor:
+    def forward(self, q: Tensor, _k: Tensor, scores: Tensor) -> Tensor:
         """Return gated scores with shape ``[B, H, L_q, L_k]``."""
 
         if not self.cfg.enabled or self.cfg.method == GatingMethod.NONE:
@@ -67,8 +67,6 @@ class GatingModule(nn.Module):
 
     def _apply_gate(self, scores: Tensor, gate: Tensor) -> Tensor:
         gated = scores * gate
-        if torch.isfinite(scores).all():
-            return gated
         return torch.where(torch.isfinite(scores), gated, scores)
 
     def _clamp_gate(self, gate: Tensor) -> Tensor:
