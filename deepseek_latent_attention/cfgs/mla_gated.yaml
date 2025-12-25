@@ -1,0 +1,12 @@
+extends:
+  - _base.yaml
+
+name: mla_gated
+
+model:
+  base: MLA_ONLY
+  gating:
+    method: headwise
+    init_bias: 0.0
+    max_scale: 1.5
+    dropout: 0.0
