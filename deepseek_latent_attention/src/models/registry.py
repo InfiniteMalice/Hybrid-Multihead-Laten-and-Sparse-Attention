@@ -8,8 +8,11 @@ from typing import Callable, Dict, Iterable, Tuple
 
 from torch import nn
 
+from ..core.gating_config import GatingConfig, GatingMethod
+
 _REGISTRY: Dict[str, Callable[..., nn.Module]] = {}
 _FEATURE_FLAGS: Dict[str, Tuple[str, ...]] = {}
+DEFAULT_GATING_CONFIG = GatingConfig()
 
 
 def register(name: str) -> Callable[[Callable[..., nn.Module]], Callable[..., nn.Module]]:
@@ -64,6 +67,7 @@ register_flags("BASE", ["MLA_ONLY", "SPARSE_ONLY", "MLA_PLUS_SPARSE"])
 register_flags("MAMBA", ["OFF", "MLA", "SPARSE", "BOTH"])
 register_flags("ANCHOR_ATTN", ["OFF", "ON"])
 register_flags("ANCHOR_MAMBA", ["OFF", "ON"])
+register_flags("GATING_METHOD", [method.value for method in GatingMethod])
 
 
 __all__ = [
@@ -72,4 +76,5 @@ __all__ = [
     "available",
     "register_flags",
     "available_flags",
+    "DEFAULT_GATING_CONFIG",
 ]

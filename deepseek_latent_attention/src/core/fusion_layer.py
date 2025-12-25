@@ -7,7 +7,8 @@ from typing import Dict, Optional, Tuple
 import torch
 from torch import nn
 
-from .mha_latent import LatentAttention, LatentSparseAttention, AttentionStats
+from .gating_config import GatingConfig
+from .mha_latent import AttentionStats, LatentAttention, LatentSparseAttention
 
 
 class LatentSparseFusion(nn.Module):
@@ -24,10 +25,23 @@ class LatentSparseFusion(nn.Module):
         num_heads: int,
         latent_dim_ratio: float = 0.25,
         dropout: float = 0.0,
+        gating_config: Optional[GatingConfig] = None,
     ) -> None:
         super().__init__()
-        self.latent = LatentAttention(embed_dim, num_heads, latent_dim_ratio, dropout)
-        self.sparse = LatentSparseAttention(embed_dim, num_heads, latent_dim_ratio, dropout)
+        self.latent = LatentAttention(
+            embed_dim,
+            num_heads,
+            latent_dim_ratio,
+            dropout,
+            gating_config=gating_config,
+        )
+        self.sparse = LatentSparseAttention(
+            embed_dim,
+            num_heads,
+            latent_dim_ratio,
+            dropout,
+            gating_config=gating_config,
+        )
         self.gate = nn.Parameter(torch.tensor(0.5))
 
     def forward(

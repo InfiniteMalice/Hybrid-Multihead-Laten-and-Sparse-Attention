@@ -9,6 +9,8 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
+from .gating import GatingModule
+from .gating_config import GatingConfig
 from .sparse_utils import apply_sparse_mask
 
 
@@ -48,6 +50,7 @@ class LatentAttention(nn.Module):
         dropout: float = 0.0,
         use_bias: bool = True,
         track_stats: bool = False,
+        gating_config: Optional[GatingConfig] = None,
     ) -> None:
         super().__init__()
         if embed_dim % num_heads != 0:
@@ -62,6 +65,7 @@ class LatentAttention(nn.Module):
         self.scale = self.latent_dim**-0.5
         self.dropout = dropout
         self.track_stats = track_stats
+        self.gating_config = gating_config or GatingConfig()
 
         self.q_proj = nn.Linear(embed_dim, embed_dim, bias=use_bias)
         self.k_proj = nn.Linear(embed_dim, embed_dim, bias=use_bias)
@@ -71,6 +75,7 @@ class LatentAttention(nn.Module):
         self.out_proj = nn.Linear(embed_dim, embed_dim, bias=use_bias)
 
         self.attn_drop = nn.Dropout(dropout)
+        self.gating = GatingModule(self.num_heads, self.head_dim, self.gating_config)
         self.register_buffer("_latest_entropy", torch.tensor(float("nan")), persistent=False)
         self.register_buffer("_latest_sparsity", torch.tensor(float("nan")), persistent=False)
 
@@ -125,6 +130,8 @@ class LatentAttention(nn.Module):
         if sparse_config is not None:
             attn_scores = apply_sparse_mask(attn_scores, sparse_config)
 
+        attn_scores = self.gating(q, k, attn_scores)
+
         attn_weights = F.softmax(attn_scores, dim=-1)
         attn_weights = self.attn_drop(attn_weights)
 
@@ -155,6 +162,7 @@ class LatentSparseAttention(LatentAttention):
         use_bias: bool = True,
         track_stats: bool = False,
         default_sparse_cfg: Optional[Dict[str, torch.Tensor]] = None,
+        gating_config: Optional[GatingConfig] = None,
     ) -> None:
         super().__init__(
             embed_dim=embed_dim,
@@ -163,6 +171,7 @@ class LatentSparseAttention(LatentAttention):
             dropout=dropout,
             use_bias=use_bias,
             track_stats=track_stats,
+            gating_config=gating_config,
         )
         self.default_sparse_cfg = default_sparse_cfg
 
