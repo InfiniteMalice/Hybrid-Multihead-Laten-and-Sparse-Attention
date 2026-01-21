@@ -19,7 +19,9 @@ These rules apply to the entire repository unless superseded by a nested `AGENTS
 ## Issue Tracking with bd (beads)
 
 **IMPORTANT**: This project uses **bd (beads)** for ALL issue tracking. Do NOT use markdown
-TODOs, task lists, or other tracking methods.
+TODOs, task lists, or other tracking methods. The `bd` CLI is unavailable for models in this
+environment, so manually add and edit entries directly in `.beads/issues.jsonl` to work with
+beads instead of invoking `bd` commands.
 
 ### Why bd?
 
